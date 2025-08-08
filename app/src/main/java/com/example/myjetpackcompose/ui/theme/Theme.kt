@@ -1,6 +1,5 @@
 package com.example.myjetpackcompose.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -50,7 +49,7 @@ fun MyJetpackComposeTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
+    MaterialTheme (
         colorScheme = colorScheme,
         typography = Typography,
         content = content
