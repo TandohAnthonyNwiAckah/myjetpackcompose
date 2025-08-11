@@ -9,15 +9,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -34,7 +39,9 @@ class MainActivity : ComponentActivity() {
 
 //                BasicUiRowColumn()
 
-                BasicUiBox()
+//                BasicUiBox()
+
+                BasicStates()
 
             }
         }
@@ -97,14 +104,10 @@ fun BasicUiBox() {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Gray)
-            .padding(top=50.dp,bottom=50.dp,start=20.dp,end=20.dp)
+            .padding(top = 50.dp, bottom = 50.dp, start = 20.dp, end = 20.dp)
 
             .clip(RoundedCornerShape(10.dp))
-            .background(Color.White)
-
-
-
-        ,
+            .background(Color.White),
     )
     {
 
@@ -170,6 +173,63 @@ fun BasicUiBox() {
         }
 
     }
+
+}
+
+
+@Composable
+fun BasicStates() {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+
+        ) {
+
+        val textStateVisibilty =
+            remember {
+                mutableStateOf(true)
+            }
+
+
+        val ts = if (textStateVisibilty.value) "Text Visible" else "Text Not Visible "
+
+
+//        if (textStateVisibilty.value) {
+//            Text(
+//                text = "Text Visible"
+//            )
+//        }
+
+        Text(
+            modifier = Modifier.alpha(
+                if (textStateVisibilty.value) 1f else 0.3f
+            ),
+            text = ts
+        )
+
+
+        Spacer(
+            modifier = Modifier.height(50.dp)
+
+        )
+
+
+        Button(
+            onClick = {
+                textStateVisibilty.value = !textStateVisibilty.value
+            }
+        ) {
+            Text(
+                text = "Change Visibilty"
+            )
+        }
+
+
+    }
+
 
 }
 
