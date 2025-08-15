@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,11 +39,16 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import com.example.myjetpackcompose.ui.theme.Black10
 import com.example.myjetpackcompose.ui.theme.MyJetpackComposeTheme
 import com.example.myjetpackcompose.ui.theme.Orange10
@@ -333,13 +339,97 @@ fun BasicImage() {
             .clip(RoundedCornerShape(20.dp))
             .padding(all = 10.dp),
     ) {
-        Image(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(all = 10.dp),
-            painter = painterResource(id = R.drawable.image),
-            contentDescription = "My Image",
+//        Image(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(all = 10.dp),
+//            painter = painterResource(id = R.drawable.image),
+//            contentDescription = "My Image",
+//        )
+
+
+        Spacer(
+            modifier = Modifier.height(50.dp)
         )
+
+
+        var imageUrl = "https://i.pravatar.cc/300"
+
+
+        var model =
+            ImageRequest.Builder(LocalContext.current).data(imageUrl).size(Size.ORIGINAL).build()
+
+        AsyncImage(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(Color.LightGray),
+            model = model,
+            contentDescription = "Async Image",
+
+            )
+
+
+        Spacer(
+            modifier = Modifier.height(50.dp)
+        )
+
+
+        var imageState = rememberAsyncImagePainter(model = model).state
+
+
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(Color.LightGray),
+            contentAlignment = Alignment.Center
+        ) {
+
+            //
+            if (imageState is AsyncImagePainter.State.Success) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .height(200.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(Color.LightGray),
+                    painter = imageState.painter,
+                    contentDescription = "Async Image Success"
+                )
+
+            }
+            //
+            if (imageState is AsyncImagePainter.State.Loading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .align(Alignment.Center),
+                    color = Color.Red
+                )
+
+
+            }
+            //
+            if (imageState is AsyncImagePainter.State.Error) {
+                Icon(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(Color.LightGray),
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = "Async Image Error",
+                    tint = Color.Red
+                )
+
+            }
+
+        }
+
     }
 
 
