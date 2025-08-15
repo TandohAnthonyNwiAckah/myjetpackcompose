@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +38,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
@@ -59,13 +61,14 @@ class MainActivity : ComponentActivity() {
 
 //                BasicStates()
 
-                BasicTextFieldUI()
+//                BasicTextFieldUI()
+
+                BasicImage()
 
             }
         }
     }
 }
-
 
 @Composable
 fun BasicUiRowColumn() {
@@ -222,7 +225,6 @@ fun BasicStates() {
 
 }
 
-
 @Composable
 fun BasicTextFieldUI() {
 
@@ -289,8 +291,7 @@ fun BasicTextFieldUI() {
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Box(
-                        modifier = Modifier
-                            .weight(1f)
+                        modifier = Modifier.weight(1f)
                     ) {
 
                         if (textInput.isEmpty()) {
@@ -310,11 +311,9 @@ fun BasicTextFieldUI() {
                         Spacer(modifier = Modifier.width(8.dp))
 
                         Icon(
-                            modifier = Modifier
-                                .clickable {
-                                    textInput = ""
-                                },
-                            imageVector = Icons.Default.Clear, contentDescription = null
+                            modifier = Modifier.clickable {
+                                textInput = ""
+                            }, imageVector = Icons.Default.Clear, contentDescription = null
                         )
 
                     }
@@ -324,6 +323,26 @@ fun BasicTextFieldUI() {
 
         )
     }
+}
+
+@Composable
+fun BasicImage() {
+
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(20.dp))
+            .padding(all = 10.dp),
+    ) {
+        Image(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(all = 10.dp),
+            painter = painterResource(id = R.drawable.image),
+            contentDescription = "My Image",
+        )
+    }
+
+
 }
 
 
